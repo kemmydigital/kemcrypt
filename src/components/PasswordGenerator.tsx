@@ -1,12 +1,11 @@
-
 import { useState, useEffect } from "react";
-import { 
-  generatePassword, 
+import {
+  generatePassword,
   PasswordOptions as PasswordOptionsType,
   PasswordHistoryItem,
   savePasswordToHistory,
   getPasswordHistory,
-  calculatePasswordStrength
+  calculatePasswordStrength,
 } from "../utils/passwordUtils";
 import { PasswordDisplay } from "@/components/PasswordDisplay";
 import { PasswordOptions } from "@/components/PasswordOptions";
@@ -23,55 +22,55 @@ export function PasswordGenerator() {
     includeSymbols: true,
     avoidSimilarCharacters: false,
   });
-  
+
   const [password, setPassword] = useState("");
   const [history, setHistory] = useState<PasswordHistoryItem[]>([]);
-  
+
   // Load history from localStorage on component mount
   useEffect(() => {
     setHistory(getPasswordHistory());
   }, []);
-  
+
   // Generate password when component mounts
   useEffect(() => {
     handleGeneratePassword();
   }, []);
-  
+
   const handleGeneratePassword = () => {
     const newPassword = generatePassword(options);
     setPassword(newPassword);
-    
+
     // Save to history and update state
     savePasswordToHistory(newPassword, calculateStrength(newPassword));
     setHistory(getPasswordHistory());
   };
-  
+
   const handleOptionsChange = (newOptions: PasswordOptionsType) => {
     setOptions(newOptions);
   };
-  
+
   const handleClearHistory = () => {
-    localStorage.removeItem('passwordHistory');
+    localStorage.removeItem("passwordHistory");
     setHistory([]);
   };
-  
+
   // Helper to calculate strength without the reasons
   const calculateStrength = (pwd: string) => {
     // Use the imported function directly instead of using require
     return calculatePasswordStrength(pwd).strength;
   };
-  
+
   return (
     <div className="grid gap-8 md:grid-cols-[1fr_auto] md:gap-12 lg:grid-cols-[1fr_350px]">
       <div className="space-y-6">
-        <PasswordDisplay 
-          password={password} 
-          onGenerateNew={handleGeneratePassword} 
+        <PasswordDisplay
+          password={password}
+          onGenerateNew={handleGeneratePassword}
         />
-        
+
         <Card>
           <CardContent className="pt-6">
-            <PasswordOptions 
+            <PasswordOptions
               options={options}
               onOptionsChange={handleOptionsChange}
               onGenerate={handleGeneratePassword}
@@ -79,22 +78,22 @@ export function PasswordGenerator() {
           </CardContent>
         </Card>
       </div>
-      
+
       <div>
         <div className="hidden md:block sticky top-20">
           <Card>
             <CardContent className="pt-6">
-              <PasswordHistory 
+              <PasswordHistory
                 history={history}
                 onClearHistory={handleClearHistory}
               />
             </CardContent>
           </Card>
         </div>
-        
+
         <div className="md:hidden mt-6">
           <Separator className="my-6" />
-          <PasswordHistory 
+          <PasswordHistory
             history={history}
             onClearHistory={handleClearHistory}
           />
