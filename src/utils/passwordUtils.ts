@@ -168,6 +168,20 @@ export const calculatePasswordStrength = (password: string): {
 };
 
 /**
+ * Generates a simple UUID (RFC4122 version 4 compliant) fallback
+ */
+const generateUUID = (): string => {
+  // Generate random hex digits
+  const hex = [...Array(36)].map(() => Math.floor(Math.random() * 16).toString(16));
+  // Insert version and variant bits
+  hex[14] = '4';
+  hex[19] = (parseInt(hex[19], 16) & 0x3 | 0x8).toString(16);
+  // Insert dashes
+  hex[8] = hex[13] = hex[18] = hex[23] = '-';
+  return hex.join('');
+};
+
+/**
  * Saves a password to localStorage
  */
 export const savePasswordToHistory = (password: string, strength: PasswordStrength): void => {
@@ -183,7 +197,7 @@ export const savePasswordToHistory = (password: string, strength: PasswordStreng
       password,
       strength,
       timestamp: Date.now(),
-      id: crypto.randomUUID()
+      id: typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : generateUUID()
     };
     
     // Add to the beginning, keep only the last 5
@@ -210,15 +224,34 @@ export const getPasswordHistory = (): PasswordHistoryItem[] => {
 };
 
 /**
- * Copies text to clipboard
+ * Copies text to clipboard with fallback for unsupported browsers
  */
 export const copyToClipboard = async (text: string): Promise<boolean> => {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch (error) {
-    console.error('Failed to copy to clipboard', error);
-    return false;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (error) {
+      console.error('Failed to copy to clipboard', error);
+      return false;
+    }
+  } else {
+    // Fallback method using textarea and execCommand
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';  // Prevent scrolling to bottom of page in MS Edge.
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      return successful;
+    } catch (error) {
+      console.error('Fallback: Failed to copy to clipboard', error);
+      return false;
+    }
   }
 };
 
