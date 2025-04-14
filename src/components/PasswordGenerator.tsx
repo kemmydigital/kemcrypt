@@ -5,7 +5,8 @@ import {
   PasswordOptions as PasswordOptionsType,
   PasswordHistoryItem,
   savePasswordToHistory,
-  getPasswordHistory
+  getPasswordHistory,
+  calculatePasswordStrength
 } from "@/utils/passwordUtils";
 import { PasswordDisplay } from "@/components/PasswordDisplay";
 import { PasswordOptions } from "@/components/PasswordOptions";
@@ -56,8 +57,7 @@ export function PasswordGenerator() {
   
   // Helper to calculate strength without the reasons
   const calculateStrength = (pwd: string) => {
-    // Import at component level to avoid circular dependency
-    const { calculatePasswordStrength } = require('@/utils/passwordUtils');
+    // Use the imported function directly instead of using require
     return calculatePasswordStrength(pwd).strength;
   };
   
