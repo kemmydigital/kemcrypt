@@ -7,7 +7,7 @@ import {
   savePasswordToHistory,
   getPasswordHistory,
   calculatePasswordStrength
-} from "@/utils/passwordUtils";
+} from "../utils/passwordUtils";
 import { PasswordDisplay } from "@/components/PasswordDisplay";
 import { PasswordOptions } from "@/components/PasswordOptions";
 import { PasswordHistory } from "@/components/PasswordHistory";

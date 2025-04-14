@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PasswordStrengthIndicator } from "@/components/PasswordStrengthIndicator";
 import { Copy, Download, Eye, EyeOff, RefreshCw } from "lucide-react";
-import { copyToClipboard, downloadAsFile } from "@/utils/passwordUtils";
+import { copyToClipboard, downloadAsFile } from "../utils/passwordUtils";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 
