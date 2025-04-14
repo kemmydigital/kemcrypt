@@ -12,7 +12,7 @@ const Index = () => {
           <header className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Shield className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold tracking-tight">Secure Password Generator</h1>
+              <h1 className="text-2xl font-bold tracking-tight">KemCrypt</h1>
             </div>
             <ThemeToggle />
           </header>
