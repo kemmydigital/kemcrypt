@@ -1,8 +1,6 @@
-
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { PasswordGenerator } from "@/components/PasswordGenerator";
-import { Shield } from "lucide-react";
+import { ThemeProvider } from "../components/ThemeProvider";
+import { ThemeToggle } from "../components/ThemeToggle";
+import { PasswordGenerator } from "../components/PasswordGenerator";
 
 const Index = () => {
   return (
@@ -11,16 +9,14 @@ const Index = () => {
         <div className="mx-auto max-w-5xl">
           <header className="mb-8 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Shield className="h-8 w-8 text-primary" />
+              <img src="/logo.png" alt="KemCrypt Logo" className="h-8 w-8 object-contain" />
               <h1 className="text-2xl font-bold tracking-tight">KemCrypt</h1>
             </div>
             <ThemeToggle />
           </header>
-          
           <main>
             <PasswordGenerator />
           </main>
-          
           <footer className="mt-12 text-center text-sm text-muted-foreground">
             <p>Generate strong, secure passwords for all your online accounts</p>
           </footer>
